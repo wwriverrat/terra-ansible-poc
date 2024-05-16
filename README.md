@@ -46,9 +46,9 @@ As this repo matures, new may be added.
 ## More Documents
 
 Further Reading:
-* [Setup](README_SETUP) - How to setup your environment in order to run this
-* [Design](README_DESIGN) - Design considerations and initial stories for PoC
-* [Working](README_WORKING) - How to work with this Terraform and Ansible 
+* [Setup](README_SETUP.md) - How to setup your environment in order to run this
+* [Design](README_DESIGN.md) - Design considerations and initial stories for PoC
+* [Working](README_WORKING.md) - How to work with this Terraform and Ansible 
   implementation to work through the end-to-end processes.
-* [Notes](README_NOTES) - Random notes taken to capture important info. These
+* [Notes](README_NOTES.md) - Random notes taken to capture important info. These
   will ultimately end up in other docs and the notes file be removed.
