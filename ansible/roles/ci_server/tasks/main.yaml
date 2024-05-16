@@ -1,0 +1,38 @@
+---
+
+# Installs for CI servers
+
+- name: Ensure fontconfig is installed
+  ansible.builtin.apt:
+    name: fontconfig
+    state: latest
+  tags: jenkins
+
+- name: Ensure OpenJDK is installed
+  ansible.builtin.apt:
+    name: openjdk-17-jre
+    state: latest
+  tags: jenkins
+
+- name: Check if jenkins key file exists
+  stat:
+    path: /etc/apt/sources.list.d/jenkins.list
+  register: jenk_apt_keyring_file
+
+- name: Configure apt to find Jenkins repo if it does not already exist
+  ansible.builtin.shell: |
+    sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    sudo echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+    sudo apt-get update
+  when: not jenk_apt_keyring_file.stat.exists
+
+- name: Ensure Jenkins is installed
+  ansible.builtin.apt:
+    name: jenkins
+    state: latest
+  tags: jenkins
+
+# TODO(dbingham) Extend this to more completely install Jenkins
+# Consider
+#  - j2 templates to configure base Jenkins configuration
+#  - Jenkins job builder

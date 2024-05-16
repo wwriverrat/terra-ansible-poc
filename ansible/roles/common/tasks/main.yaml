@@ -1,0 +1,41 @@
+---
+
+# Common for ALL server types
+
+# Update all packages to latest
+- name: Update all Debian/Ubuntu packages to their latest version
+  # Note: Caution if/when kernel updates require reboot
+  ansible.builtin.apt:
+    name: "*"
+    state: latest
+    update_cache: true
+
+- name: Ensure ntp is installed
+  ansible.builtin.apt:
+    name: ntp
+    state: latest
+  tags: ntp
+
+- name: Ensure ntp is started and enabled on boot
+  ansible.builtin.service:
+    name: ntp
+    state: started
+    enabled: true
+
+### ---------- Things that should be done for real environments ------------
+
+# Add config here to configure to your organization's package repos. Example:
+# - Internal Artifactory
+
+# Other potential candidates:
+#   Ensure a Endpoint Detection and Response solution is installed. Examples
+#   - Tanium
+#   - SentinelOne
+#   Add access log shipping to organization elastic search
+#   - Logstash
+#   Add application log shipping to app/team/organization elastic search
+#   - Logstash
+#   Add metrics gathering software
+#   - prometheus
+#   - collectd
+#   - graphana

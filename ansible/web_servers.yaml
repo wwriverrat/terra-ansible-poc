@@ -1,0 +1,6 @@
+---
+# Install and configure the Web servers
+- hosts: web
+  roles:
+    - common
+    - web

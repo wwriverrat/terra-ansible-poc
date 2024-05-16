@@ -1,0 +1,9 @@
+---
+# *** Ansible Galaxy Requirements ***
+# See instructions in README_SETUP.md on what to do with this file
+
+collections:
+  # Install a collection from Ansible Galaxy.
+  - name: cloud.terraform
+    source: https://galaxy.ansible.com
+    # version: ">=x.x.x"  # Not currently needing pinned

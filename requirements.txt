@@ -1,0 +1,4 @@
+
+ansible
+# PyMySQL
+# mysqlclient

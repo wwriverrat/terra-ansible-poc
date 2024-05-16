@@ -1,0 +1,11 @@
+---
+
+# Installs for DB servers
+
+- name: Install the latest version of MariaDB
+  ansible.builtin.apt:
+    name:
+      - mariadb-server
+    state: latest
+
+# TODO(dbingham) Add MariaDB configurations here

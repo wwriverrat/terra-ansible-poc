@@ -1,0 +1,13 @@
+---
+# Install and configure the CI servers
+
+- hosts: ci_servers
+  gather_facts: false
+  tasks:
+    - name: Wait 600 seconds for new VM target connection to become reachable
+      ansible.builtin.wait_for_connection:
+
+- hosts: ci_servers
+  roles:
+    - common
+    - ci_server
