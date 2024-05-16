@@ -19,6 +19,8 @@ been curious how one might automate code that?:
 * Orchestrates this all together to ensure your app is up and running
 * Ultimately..., it launches your shiny new application!!!
 
+![Architecture Diagram](images/AI-Bot-arch.drawio.png "Architecture")
+
 The following repository is a "proof of concept" whose intent is to
 
 1. Create a cool (yet very simple) multi-tiered ai-bot that initially leverages
