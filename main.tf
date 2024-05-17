@@ -14,10 +14,36 @@ terraform {
     http = {
       source = "hashicorp/http"
     }
+    null = {
+      source = "hashicorp/null"
+      version = "3.2.2"
+    }
   }
 
 }
 
+# Validation that ensures that your app_environment matches your workspace
+resource "null_resource" "env_precondition_validation" {
+  lifecycle {
+    precondition {
+      # Terraform workspace must match `app_env`
+      condition     = (terraform.workspace == format("%s_%s", var.application_name, var.env))
+      error_message = <<EOT
+VALIDATION ERROR: Your current workspace (${terraform.workspace}) MUST be
+consistent with app and environment (env). As run, that would be:
+${format("%s_%s", var.application_name, var.env)}
+
+Getting setup would take both or just the second of these commands:
+
+terraform workspace select ${format("%s_%s", var.application_name, var.env)}
+terraform workspace select ${format("%s_%s", var.application_name, var.env)}
+
+Please review your application name, environment and workspace so this run
+will be isolated to an appropriate workspace.
+EOT
+    }
+  }
+}
 provider "aws" {
   region = "us-west-2"
 }
