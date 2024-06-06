@@ -1,9 +1,36 @@
 
 # SETUP
 
-_How do use this repo??? Does it really work?_
+_How do we use this repo??? Does it really work?_
 
 The following describes steps needed to get you working with this repo.
+
+## SSH Keys
+When using Ansible for your work, the use of SSH for authentication is
+important and keeping these keys safe and secure is paramount. Therefore, we 
+recommend a different key (public and private) unique to each environment
+(share nothing between envs).
+
+The following article,
+[Generating a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent),
+from GitHub describes a solid technique for generating a new ssh key. Using
+these techniques, there should exist a private/public key for each of the
+environments (examples):
+
+| Env           | File locations (private, public)                       |
+|---------------|--------------------------------------------------------|
+| dev           | `~/.ssh/id_ed25519_dev, ~/.ssh/id_ed25519_dev.pub`     |
+| stage         | `~/.ssh/id_ed25519_stage, ~/.ssh/id_ed25519_stage.pub` |
+| prod          | `~/.ssh/id_ed25519_prod, ~/.ssh/id_ed25519_dev.prod`   |
+
+This repo relies on using `var.env` to grab the correct key using naming above.
+
+Naturally if these files are to be shared amongst teammates and rotated often,
+then they should live in ansible-vault, AWS Secrets Manager, Hashicorp Vault or
+another super-safe secrets store.
+
+When using Ansible, you may need to explicitly specify which ssh private key
+to use.
 
 ## Cloud Account
 In order to deploy cool things into "cloud", you will need a cloud account to
@@ -13,7 +40,7 @@ likely will only work on AWS.
 Steps needed to get yourself setup:
 1. Acquire or use an AWS account.
 
-   While developing this, I use the
+   While developing this, I used the
    [AWS Free Account signup](https://portal.aws.amazon.com/billing/signup?refid=em_127222&p=free&c=hp&z=1&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start/email)
    page to get started.
 2. Create a IAM user on AWS (this is optional if you plan on using the 
@@ -58,11 +85,11 @@ On Mac using [Homebrew](https://brew.sh/):
       # ... will display a LOT of python versions you can install
       
       # Install an appropriate version (example, but should be upgradable over time)
-      pyenv install 3.11.8
+      pyenv install 3.12.3
       
       # If necessary and you are currently using pyenv,
       # Change the .python-version invoking the following using your favorite version
-      pyenv local 3.11.8
+      pyenv local 3.12.3
       
       # Sanity Check: Are we running right python?
       python --version
@@ -107,7 +134,7 @@ environment:
 
 Install Terraform per instructions page 
   [Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-  on Hashicorp website and follow instructions for you OS.
+  on Hashicorp website and follow instructions for your specific OS.
 
 On Mac, the following is a quick summary from the above:
 
@@ -135,5 +162,3 @@ terraform plan -var env=dev
 
 # ... Should output terraform planning information ... 
 ```
-
-## More

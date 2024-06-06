@@ -15,7 +15,7 @@ terraform {
       source = "hashicorp/http"
     }
     null = {
-      source = "hashicorp/null"
+      source  = "hashicorp/null"
       version = "3.2.2"
     }
   }
@@ -35,7 +35,7 @@ ${format("%s_%s", var.application_name, var.env)}
 
 Getting setup would take both or just the second of these commands:
 
-terraform workspace select ${format("%s_%s", var.application_name, var.env)}
+terraform workspace new ${format("%s_%s", var.application_name, var.env)}
 terraform workspace select ${format("%s_%s", var.application_name, var.env)}
 
 Please review your application name, environment and workspace so this run
@@ -62,10 +62,9 @@ locals {
 # ------------------- Server instance specifications ----------------
 
 # Make public key available
-resource "aws_key_pair" "dev_key" {
-  # From ~/.ssh/id_ed25519_dev_play.pub
-  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL71YaY1HNHHnZbnl4NLpAZDT7pe7dkEvdHVp+fPf33S wwriverrat@cox.net"
-  key_name   = "dev_key"
+resource "aws_key_pair" "pub_key" {
+  public_key = file("~/.ssh/id_ed25519_${var.env}.pub")
+  key_name   = "pub_key"
 }
 
 # Get latest Ubuntu base ami
@@ -87,10 +86,10 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "ci_server" {
+  instance_type   = var.env == "prod" ? lookup(var.ci_prod_overrides, "instance_type", 0) : lookup(var.ci_defaults, "instance_type", 1)
   ami             = data.aws_ami.ubuntu.id
-  instance_type   = "t2.micro"
-  key_name        = aws_key_pair.dev_key.key_name
-  security_groups = ["${aws_security_group.ci_access.name}"]
+  key_name        = aws_key_pair.pub_key.key_name
+  security_groups = [aws_security_group.ci_access.name]
   tags = {
     Name        = format("%s_%s_%s", var.application_name, var.env, var.ci_instance_type)
     environment = var.env
@@ -98,14 +97,14 @@ resource "aws_instance" "ci_server" {
 }
 
 resource "aws_instance" "db_server" {
-  count = var.db_instance_count
-
+  count           = var.env == "prod" ? lookup(var.db_prod_overrides, "instance_count", 0) : lookup(var.db_defaults, "instance_count", 1)
+  instance_type   = var.env == "prod" ? lookup(var.db_prod_overrides, "instance_type", 0) : lookup(var.db_defaults, "instance_type", 1)
   ami             = data.aws_ami.ubuntu.id
-  instance_type   = "t2.micro"
-  key_name        = aws_key_pair.dev_key.key_name
-  security_groups = ["${aws_security_group.ci_access.name}"]
+  key_name        = aws_key_pair.pub_key.key_name
+  security_groups = [aws_security_group.ci_access.name]
   tags = {
-    Name = format("%s_%s_%s_%s", var.application_name, var.env, var.db_instance_type, count.index)
+    Name        = format("%s_%s_%s_%s", var.application_name, var.env, var.db_instance_type, count.index)
+    environment = var.env
   }
 }
 
@@ -115,11 +114,12 @@ resource "aws_instance" "db_server" {
 #  ami = data.aws_ami.ubuntu.id
 #  instance_type = "t2.micro"
 #
-#  key_name        = aws_key_pair.dev_key.key_name
+#  key_name        = aws_key_pair.pub_key.key_name
 #  security_groups = ["${aws_security_group.ci_access.name}"]
 #
 #  tags = {
 #    Name = format("%s_%s_%s_%s", var.application_name, var.env, var.app_instance_type, count.index)
+#    environment = var.env
 #  }
 #}
 
@@ -129,11 +129,12 @@ resource "aws_instance" "db_server" {
 #  ami = data.aws_ami.ubuntu.id
 #  instance_type = "t2.micro"
 #
-#  key_name        = aws_key_pair.dev_key.key_name
+#  key_name        = aws_key_pair.pub_key.key_name
 #  security_groups = ["${aws_security_group.ci_access.name}"]
 #
 #  tags = {
 #    Name = format("%s_%s_%s_%s", var.application_name, var.env, var.web_instance_type, count.index)
+#    environment = var.env
 #  }
 #}
 

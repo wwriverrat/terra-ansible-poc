@@ -72,3 +72,93 @@ variable "web_instance_count" {
   type        = number
   default     = 2
 }
+
+variable "ci_defaults" {
+  type = map(string)
+  default = {
+    "instance_count" = "1"
+    "instance_type"  = "t2.micro"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+variable "ci_prod_overrides" {
+  type = map(string)
+  default = {
+    "instance_count" = "1"
+    "instance_type"  = "t3.large"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+
+variable "db_defaults" {
+  type = map(string)
+  default = {
+    "instance_count" = "1"
+    "instance_type"  = "t2.micro"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+variable "db_prod_overrides" {
+  type = map(string)
+  default = {
+    "instance_count" = "2"
+    "instance_type"  = "t3.large"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+
+variable "web_defaults" {
+  type = map(string)
+  default = {
+    "instance_count" = "1"
+    "instance_type"  = "t2.micro"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+variable "web_prod_overrides" {
+  type = map(string)
+  default = {
+    "instance_count" = "4"
+    "instance_type"  = "t3.medium"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+variable "app_defaults" {
+  type = map(string)
+  default = {
+    "instance_count" = "1"
+    "instance_type"  = "t2.micro"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}
+
+variable "app_prod_overrides" {
+  type = map(string)
+  default = {
+    "instance_count" = "2"
+    "instance_type"  = "t3.medium"
+    # ami: derived elsewhere
+    # key_name: derived elsewhere
+    # security_groups: derived elsewhere
+  }
+}

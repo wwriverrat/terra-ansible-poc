@@ -10,8 +10,8 @@ AI-BOT Deployer
 _Dude! I wanna be able to regularly deploy my cool new AI application! How can
 I do this?!?_
 
-As a application designer, software engineer, or product manager have you ever 
-been curious how one might automate code that?:
+As an application designer, software engineer, or product manager, have you
+ever been curious how one might automate code that?:
 
 * Allows your cool and funky new software to exist in a git repo
 * Builds the infrastructure on which your application will deploy
@@ -34,21 +34,21 @@ The following repository is a "proof of concept" whose intent is to
    bastion host etc.).
 
 ## Tech Stack
-Currently this repo uses the following tech:
+Currently, this repo uses the following tech:
 
-| Tech          | Description                                        |
-|---------------|----------------------------------------------------|
-| AWS           | AWS CLI, free account, IAM user                    |
-| Terraform     | Using `ansible/ansible` plugin                     |
-| Ansible       | Using galaxy cloud.terraform plugin                |
-| Ansible-Vault | Managing secrets (could be modifed to aws secrets) |
+| Tech          | Description                                         |
+|---------------|-----------------------------------------------------|
+| AWS           | AWS CLI, free account, IAM user                     |
+| Terraform     | Using `ansible/ansible` plugin                      |
+| Ansible       | Using galaxy `cloud.terraform` plugin               |
+| Ansible-Vault | Managing secrets (could be modified to aws secrets) |
 
 As this repo matures, new may be added.
 
 ## More Documents
 
 Further Reading:
-* [Setup](README_SETUP.md) - How to setup your environment in order to run this
+* [Setup](README_SETUP.md) - How to set up your environment to run this
 * [Design](README_DESIGN.md) - Design considerations and initial stories for PoC
 * [Working](README_WORKING.md) - How to work with this Terraform and Ansible 
   implementation to work through the end-to-end processes.
